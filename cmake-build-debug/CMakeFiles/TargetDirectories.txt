@@ -1,0 +1,3 @@
+/Users/justauser/CLionProjects/gaming_shop/main/cmake-build-debug/CMakeFiles/main.dir
+/Users/justauser/CLionProjects/gaming_shop/main/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/justauser/CLionProjects/gaming_shop/main/cmake-build-debug/CMakeFiles/rebuild_cache.dir
