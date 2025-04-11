@@ -31,13 +31,13 @@ class list_game : public structor_game {
 public:
     /*Games *list = new Games[20]*/;
     vector<structor_game> listname;
-    void addGame(structor_game& game) {
+
+    void addGame(structor_game &game) {
         listname.push_back(game);
     }
 
 
     void get_list() {
-
         list_game g1;
 
         g1.name = "the last of us";
@@ -85,11 +85,44 @@ public:
 
     int safe = 1000;
 
+    void search_name(string name) {
+        //search by name
 
+        // needed for putting data in it!
+        cout << endl;
+        for (auto &names: game.listname) {
+            cout << names.name << endl;
+            cout << endl;
+        }
+        for (int i = 0; i < game.listname.size(); i++) {
+            if (game.listname[i].name == name) {
+                cout << game.listname[i].name << ", " << game.listname[i].quantity << ", " << game.listname[i].
+                        quality << endl;
+                for (int j = 0; j < game.listname[i].platform.size(); j++) {
+                    //  cout<<games.list[i].platform[j];
+                }
+            }
+        }
+    }
+
+    void search_platform(string plat_name) {
+        // list_game games size of games will be 0;
+        for (auto &it: game.listname) {
+            for (auto &it1: it.type) {
+                if (it1 == plat_name) {
+                    cout << it.name << ", " << it.quantity << ", " << it.quality;
+                    for (auto it2 = it.type.begin(); it2 != it.type.end(); it2++) {
+                        //doesn't work without iterator and with type[i]
+                        cout << " " << *it2;
+                    }
+                    cout << endl;
+                }
+            }
+        }
+    }
 
 
     void search_console(string console_name) {
-
         for (auto &it: game.listname) {
             if (it.map_platform[console_name].size() > 0) {
                 cout << it.name << ", " << it.quantity << ", " << it.quality << endl;
@@ -106,12 +139,12 @@ public:
         structor_game structer;
         //listname by its own does not actually use anything
         // handling and emptying buffer by hand;
-        cout<< "how many games:" << game.listname.size() << endl;
+        cout << "how many games:" << game.listname.size() << endl;
         cout << "pls enter the name of your game: ";
         cin >> structer.name;
         bool found = false;
         for (auto &it: game.listname) {
-            if(found == false){
+            if (found == false) {
                 if (structer.name == it.name) {
                     found = true;
                     int quantity;
@@ -119,68 +152,65 @@ public:
                     cin >> structer.quantity;
 
                     it.quantity += quantity;
-                    safe -= quantity*it.quality;
-                    for(vector<structor_game>::iterator iter = game.listname.begin(); iter != game.listname.end(); iter++) {
-                        if(iter->name == structer.name) {
+                    safe -= quantity * it.quality;
+                    for (vector<structor_game>::iterator iter = game.listname.begin(); iter != game.listname.end(); iter
+                         ++) {
+                        if (iter->name == structer.name) {
                             game.listname.erase(iter);
                             game.listname.push_back(structer);
                             break;
                         }
-
                     }
-                    cout<<R"(your safe:)"<<safe<<endl;// ممکنه ایراد داشته باشه!
+                    cout << R"(your safe:)" << safe << endl; // ممکنه ایراد داشته باشه!
                 }
                 //break;
             }
         }
         if (!found) {
-                string plat_name;
+            string plat_name;
 
-                cout << "pls enter the name of your platform: choose from: all ps3 ps4 ps5 ps xbox xbox360 xbox1 ";
-                cin >> plat_name;
-                if (map_platform[plat_name].size() > 0) {
-                        structer.platform = map_platform[plat_name];
-                    }
+            cout << "pls enter the name of your platform: choose from: all ps3 ps4 ps5 ps xbox xbox360 xbox1 ";
+            cin >> plat_name;
+            if (map_platform[plat_name].size() > 0) {
+                structer.platform = map_platform[plat_name];
+            }
 
-                 cout<<"pls enter quantity:"<<endl;
-                 cin >> structer.quantity;
+            cout << "pls enter quantity:" << endl;
+            cin >> structer.quantity;
 
-                 cout<<"pls enter quality:"<<endl;
-                 cin >> structer.quality;
-                 string quality_word;
-                 getline(cin, quality_word);
-                 stringstream s(quality_word);
-                 int i = 0;
-                 while(s >> quality_word) {
-                     structer.type.push_back(quality_word);
-                 }
+            cout << "pls enter quality:" << endl;
+            cin >> structer.quality;
+            string quality_word;
+            getline(cin, quality_word);
+            stringstream s(quality_word);
+            int i = 0;
+            while (s >> quality_word) {
+                structer.type.push_back(quality_word);
+            }
             game.addGame(structer);
-                    }
-
-                }
-
-
-
+        }
+    }
 
 
     bool verify() {
-        while(password != "admin1admin" || password != "exit") {
-            cout << "enter exit" ;
-            cout<<" or password: "<<endl;
+        while (password != "admin1admin" || password != "exit") {
+            cout << "enter exit";
+            cout << " or password: " << endl;
 
             cin >> password;
             if (password == "admin1admin") {
                 return true;
-            }if (password == "exit") {
+            }
+            if (password == "exit") {
                 return false;
             }
         }
     }
 
     void display() {
-        if(verify()){
+        if (verify()) {
             game.get_list();
-            cout <<"games we have"<< game.listname.size() << endl;
+            cout << "games we have" << game.listname.size() << endl;
             string what;
             while (true) {
                 cout <<
@@ -191,10 +221,11 @@ public:
                     cout << "enter the name of the game!" << endl;
                     string name;
                     cin >> name;
-                  //  search_name(name);
+                      search_name(name);
                 }
                 if (what == "1") {
-                    cout << "enter which console you have in mind!: all,ps5,ps4,ps3,ps(all of them),xbox,xbox1,xbox360" << endl;
+                    cout << "enter which console you have in mind!: all,ps5,ps4,ps3,ps(all of them),xbox,xbox1,xbox360"
+                            << endl;
                     //todo ps should be able to have ps5 and ps4 shown
                     string console_name;
                     cin >> console_name;
@@ -204,16 +235,15 @@ public:
                     cout << "enter which platform you have in mind!" << endl;
                     string platform;
                     cin >> platform;
-                   // search_platform(platform);
+                     search_platform(platform);
                 }
                 if (what == "4") {
                     buy();
-
                 }
                 if (what == "5") {
-                    cout<<safe <<endl;
+                    cout << safe << endl;
                 }
-                if(what == "6") {
+                if (what == "6") {
                     break;
                 }
             }
